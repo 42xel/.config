@@ -1,0 +1,10 @@
+# I fought hard to find this include pattern. Other pattern to try depending on how you want to treat nested items: * then !*/ , **/*
+/* 
+!.gitignore
+!broot
+!fish
+!kak
+!kak-tree-sitter
+!lazygit
+!zellij
+
