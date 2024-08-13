@@ -77,17 +77,18 @@ plug "andreyorst/fzf.kak" config %{
 } defer fzf %{
   set-option global fzf_highlight_command "lat -r {}"
 } defer fzf-file %{
-  set-option global fzf_file_command "fd . --no-ignore-vcs"
+  set-option global fzf_file_command "fdfind . --no-ignore-vcs"
 } defer fzf-grep %{
-  set-option global fzf_grep_command "fd"
+  set-option global fzf_grep_command "fdfind"
 }
 map -docstring "fzf" global user z ": fzf-mode<ret>"
 
 ## TODO see if still useful after fzf and harpoon/pokemon
-define-command -docstring "fd [<arguments>]: scratch fd-find" -params .. fd %{
+define-command -docstring "fd [<arguments>]: scratch fdfind" -params .. fdfind %{
   edit -scratch *fd*
-  execute-keys "gg! fd %arg{@}<ret><a-o>"
+  execute-keys "gg! fdfind %arg{@}<ret><a-o>"
 }
+alias global fd fdfind
 
 plug "andreyorst/powerline.kak" defer kakoune-themes %{
   powerline-theme pastel

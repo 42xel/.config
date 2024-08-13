@@ -1,14 +1,15 @@
                 if status is-interactive
             function zellij_abbr
-abbr d --set-cursor "cd % && ls"
-abbr hg "history|grep "
 echo -n "zellij "
 echo $argv | sed 's/^.//'
 end
     abbr -a zellij --regex 'z[a|da|d|ka|k|ls|\-s]' -f zellij_abbr
+abbr d --set-cursor "cd % && ls"
+abbr mkcd --set-cursor 'begin set -l dir % && mkdir -p $dir && cd $dir; end'
+abbr hg "history|grep "
 fish_add_path ~/.cargo/bin/
-set EDITOR "/var/lib/snapd/snap/bin/kakoune"
-    abbr kds "setsid kak -d -s"
+set EDITOR "kakoune"
+abbr kds "setsid kak -d -s"
 abbr kc "kak -c"
 abbr 'kc!' --set-cursor 'session_name=% setsid kak -d -s $session_name; kak -c $session_name'
 abbr kl "kak -l"
