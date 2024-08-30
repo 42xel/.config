@@ -10,7 +10,7 @@ keybinds clear-defaults=true {
         bind "Alt Up" { SwitchToMode "Pane"; }
 
         bind "Ctrl N" { NewPane; }
-        bind "Ctrl T" "Ctrl t" { NewTab; }
+        bind "Ctrl T" { NewTab; }
     }
     locked {
         bind "F12" { SwitchToMode "Normal"; }
@@ -29,8 +29,8 @@ keybinds clear-defaults=true {
 //        bind "-" { Resize "Decrease"; }
     }
     pane {
-        bind "Alt Left" { MovePane; }
-        bind "Alt Right" { MovePaneBackwards; }
+        bind "Alt Left" { MovePaneBackwards; }
+        bind "Alt Right" { MovePane; }
         bind "Alt Down" { SwitchToMode "Scroll"; }
         bind "Alt Up" { SwitchToMode "tab"; }
 
