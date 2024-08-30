@@ -1,10 +1,6 @@
                 if status is-interactive
-#             function zellij_abbr
-# echo -n "zellij "
-# echo $argv | sed 's/^.//'
-# end
+# abbr -a zellij --regex 'z[a|da|d|ka|k|ls|\-s]' -f zellij_abbr
 abbr zj zellij
-abbr -a zellij --regex 'z[a|da|d|ka|k|ls|\-s]' -f zellij_abbr
 abbr d --set-cursor "cd % && ls"
 abbr mkcd --set-cursor 'begin set -l dir % && mkdir -p $dir && cd $dir; end'
 abbr hg "history|grep "

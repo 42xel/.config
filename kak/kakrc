@@ -107,8 +107,8 @@ plug "gustavo-hms/luar" %{
 plug "kak-lsp/kak-lsp" do %{
   cargo install --locked --force --path .
   # optional: if you want to use specific language servers
-  # mkdir -p ~/.config/kak-lsp
-  # cp -n kak-lsp.toml ~/.config/kak-lsp/
+  mkdir -p ~/.config/kak-lsp
+  cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
 set-option global lsp_auto_highlight_references true
 map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"
@@ -136,7 +136,7 @@ hook global WinSetOption filetype=rust %{
   # doesn't work, wrong argument count. see ~/.config/kak/plugins/kak-lsp/rc/lsp.kak:2209:5
   # lsp-inlay-diagnostics-enable "global"
 
-  set-option window makecmd "cargo build --release"
+  set-option window makecmd "cargo build --release 2>&1"
   define-command -override -params .. -docstring \
   "build [<arguments>]: cargo build wrapper utility. All arguments are forwarded to the cargo build command."\
   build %{
@@ -149,6 +149,31 @@ hook global WinSetOption filetype=rust %{
     set-option window makecmd "cargo test"
     make %arg{@}
   }
+
+  hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
+  hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
+  hook window -group semantic-tokens InsertIdle .* lsp-semantic-tokens
+  hook -once -always window WinSetOption filetype=.* %{
+    remove-hooks window semantic-tokens
+  }
+}
+
+# perl
+hook global WinSetOption filetype=perl %{
+  set-option buffer tabstop 3
+  set-option window indentwidth %opt{tabstop}
+  pairs_map  /   /  ; pairs_map-alias  /   /  l
+}
+
+# C
+hook global WinSetOption filetype=c %{
+  set-option buffer tabstop 3
+  set-option window indentwidth %opt{tabstop}
+}
+
+# java
+hook global WinSetOption filetype=java %{
+  lsp-enable-window
 
   hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
   hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
