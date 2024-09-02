@@ -9,8 +9,52 @@ keybinds clear-defaults=true {
         bind "Alt Down" { SwitchToMode "Tmux"; }
         bind "Alt Up" { SwitchToMode "Pane"; }
 
+        // bind "Alt PageDown" { GoToNextTab; }
+        // bind "Alt PageUp" { GoToPreviousTab; }
         bind "Ctrl N" { NewPane; }
         bind "Ctrl T" { NewTab; }
+
+        // bind "F1" {} // reserved for help
+        // bind "F2" {} // reserved for renaming
+        // bind "F3" {} // resrved for common action, such as lsp action in kak
+        // bind "F4" {} // reserved for some other common action ig
+        // bind "F5" {} // reserved for compile
+        // bind "F6" {} // reserved for test
+        bind "F7" {
+            Run "fish" {
+                close_on_exit true
+                floating true
+                height "90%"
+                width "90%"
+                x "5%"
+                y "5%"
+            }
+        } // reserved for run and debug ?
+        // bind "F8" {} // goto next mistake, but highly susceptible to change
+        bind "F9" {
+            Run "lazygit" {
+                close_on_exit true
+                floating true
+                height "100%"
+                width "100%"
+                x "1"
+                y "2"
+            }
+        } // vcs I guess
+        // bind "F10" {}
+        // bind "F11" {}
+        // bind "F12" {} // for now, lock
+// vcs(git) test compile run debug 
+
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt 6" { GoToTab 6; }
+        bind "Alt 7" { GoToTab 7; }
+        bind "Alt 8" { GoToTab 8; }
+        bind "Alt 9" { GoToTab 9; }
     }
     locked {
         bind "F12" { SwitchToMode "Normal"; }
@@ -105,6 +149,7 @@ keybinds clear-defaults=true {
         bind "7" { GoToTab 7; SwitchToMode "Normal"; }
         bind "8" { GoToTab 8; SwitchToMode "Normal"; }
         bind "9" { GoToTab 9; SwitchToMode "Normal"; }
+
         bind "Tab" { ToggleTab; SwitchToMode "Normal"; }
     }
     scroll {
@@ -192,6 +237,16 @@ keybinds clear-defaults=true {
         bind "q" { Quit; }
         bind "Space" { NextSwapLayout; }
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
+
+        bind "1" { GoToTab 1; SwitchToMode "Normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "Normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "Normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "Normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "Normal"; }
+        bind "6" { GoToTab 6; SwitchToMode "Normal"; }
+        bind "7" { GoToTab 7; SwitchToMode "Normal"; }
+        bind "8" { GoToTab 8; SwitchToMode "Normal"; }
+        bind "9" { GoToTab 9; SwitchToMode "Normal"; }
     }
     shared_except "locked" {
 
