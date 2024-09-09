@@ -27,7 +27,7 @@ keybinds clear-defaults=true {
                 height "90%"
                 width "90%"
                 x "5%"
-                y "5%"
+                y "10%"
             }
         } // reserved for run and debug ?
         // bind "F8" {} // goto next mistake, but highly susceptible to change

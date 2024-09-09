@@ -8,10 +8,10 @@ set-option global ui_options terminal_assistant=cat
 
 add-highlighter global/ number-lines -hlcursor -min-digits 3
 add-highlighter global/ show-matching
-# add-highlighter global/wrap wrap
+add-highlighter global/wrap wrap
 
 add-highlighter global/show-whitespaces show-whitespaces -spc " "
-set-option global tabstop 4
+set-option global tabstop 3
 # kak
 hook global WinSetOption filetype=kak %{
   # set-option window makecmd "source...?"
@@ -162,17 +162,20 @@ hook global WinSetOption filetype=rust %{
 hook global WinSetOption filetype=perl %{
   set-option buffer tabstop 3
   set-option window indentwidth %opt{tabstop}
+  set-option buffer matching_pairs ( ) { } [ ] < > / /
   pairs_map  /   /  ; pairs_map-alias  /   /  l
 }
 
 # C
 hook global WinSetOption filetype=c %{
   set-option buffer tabstop 3
-  set-option window indentwidth %opt{tabstop}
+  set-option window indentwidth 0
 }
 
 # java
 hook global WinSetOption filetype=java %{
+  set-option buffer tabstop 4
+  set-option window indentwidth %opt{tabstop}
   lsp-enable-window
 
   hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
@@ -183,19 +186,27 @@ hook global WinSetOption filetype=java %{
   }
 }
 
-# # auto save on exit insert mode
-# hook global ModeChange pop:insert:.* %{
-#   try %{
-#     write
-#     echo "file saved at %sh{date}"
-#   }
+# kdl
+hook global BufCreate .*\.kdl %{
+  set-option buffer filetype kdl
+  set-option buffer tabstop 4
+  set-option buffer indentwidth %opt{tabstop}
+  set-option buffer comment_line //
+  set-option buffer comment_block_begin /-
+  set-option buffer comment_block_end ''
+}
+# hook global WinSetOption filetype=kdl %{
 # }
+
 
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
+source ~/.config/kak/gnu_readline.kak
 
-define-command -params .. -docstring \
-"tree [<arguments>]: execute tree into a buffer, with the following options :
+# TODO completions (for some reason -shell-completion does not work)
+# TODO jumplist
+define-command -file-completion -params .. -docstring \
+  "tree [<arguments>]: execute tree into a buffer, with the following options :
 - -f to have full pathnames.
 - --charset to have indentation using plain space characters instead of fancy character art.
 - -F to know file type even without color.
