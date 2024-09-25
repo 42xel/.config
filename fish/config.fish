@@ -12,6 +12,9 @@ abbr xpo "xsel -po"
 abbr xsi "xsel -si"
 abbr xso "xsel -so"
     set EDITOR "kakoune"
+fish_add_path ~/.cargo/bin/
+abbr kns kitten ssh
+abbr fd fdfind
 abbr kds "setsid kak -d -s"
 abbr kc "kak -c"
 abbr 'kc!' --set-cursor 'session_name=% setsid kak -d -s $session_name; kak -c $session_name'

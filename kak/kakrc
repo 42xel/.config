@@ -201,7 +201,7 @@ hook global BufCreate .*\.kdl %{
 
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
-source ~/.config/kak/gnu_readline.kak
+# source ~/.config/kak/gnu_readline.kak
 
 # TODO completions (for some reason -shell-completion does not work)
 # TODO jumplist
