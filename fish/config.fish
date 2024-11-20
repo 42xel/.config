@@ -11,7 +11,7 @@ abbr xpi "xsel -pi"
 abbr xpo "xsel -po"
 abbr xsi "xsel -si"
 abbr xso "xsel -so"
-    set EDITOR "kakoune"
+    set -x EDITOR "kakoune"
 fish_add_path ~/.cargo/bin/
 abbr kns kitten ssh
 abbr fd fdfind
