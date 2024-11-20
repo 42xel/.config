@@ -1,7 +1,7 @@
 # Interstingly, braces are parsed before comments, with unintended consequences
 # IDEA : \K in <a-k> should regex modify the selection. That's kind of what s does except not really.
 
-eval %sh{ kak-tree-sitter -dksvv --init $kak_session --with-text-objects }
+eval %sh{ kak-tree-sitter -dksvv --init $kak_session }
 
 set-option global ui_options terminal_assistant=cat
 # colorscheme red-phoenix
@@ -87,6 +87,7 @@ map -docstring "fzf" global user z ": fzf-mode<ret>"
 define-command -docstring "fd [<arguments>]: scratch fdfind" -params .. fdfind %{
   edit -scratch *fd*
   execute-keys "gg! fdfind %arg{@}<ret><a-o>"
+  map buffer normal <ret> 'x: goto-file<ret>'
 }
 alias global fd fdfind
 
@@ -107,11 +108,12 @@ plug "gustavo-hms/luar" %{
 plug "kak-lsp/kak-lsp" do %{
   cargo install --locked --force --path .
   # optional: if you want to use specific language servers
-  mkdir -p ~/.config/kak-lsp
-  cp -n kak-lsp.toml ~/.config/kak-lsp/
+  # mkdir -p ~/.config/kak-lsp
+  # cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
 set-option global lsp_auto_highlight_references true
 map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"
+map -docstring "lsp mode" global user L ": enter-user-mode -lock lsp<ret>"
 # map -docstring "open lsp" normal user <square> ": enter-user-mode lsp<ret>"
 map -docstring "goto next mistake" global normal <F8> ": lsp-find-error --include-warnings<ret>: lsp-hover<ret>"
 map -docstring "lsp hover" global normal <F1> ": lsp-hover<ret>"
@@ -204,7 +206,7 @@ source ~/.config/kak/better-gf.kak
 # source ~/.config/kak/gnu_readline.kak
 
 # TODO completions (for some reason -shell-completion does not work)
-# TODO jumplist
+# TODO better jumplist
 define-command -file-completion -params .. -docstring \
   "tree [<arguments>]: execute tree into a buffer, with the following options :
 - -f to have full pathnames.
@@ -217,7 +219,34 @@ tree %{
   }
   edit -scratch *tree*
   execute-keys "! tree -fF --charset ASCII %arg{@}<ret>%%s^[\h|\-`]+<ret>r<space>gg"
+  map buffer normal <ret> 'x: goto-file<ret>'
 }
 
-
+# TODO: betterise with the arguments for the grep
+# ease buffer handling
+hook global WinDisplay .* %{ arrange-buffers %val{hook_param} }
+define-command -override -params 1..2 -docstring \
+"
+" \
+my-delete-buffers-matching %{
+    evaluate-commands %sh{
+        cmd=delete-buffer
+        if [ "$1" = -f ]; then {
+            cmd=delete-buffer!
+            shift
+        } fi
+        buffers_escaped=$(eval printf '%s\\n' "$kak_quoted_buflist" | grep "$@" | sed "s/'/''/g")
+        if [ -z "$buffers_escaped" ]; then {
+            echo fail no matching buffer
+        } else {
+            nl=$(printf '\n.')
+            IFS=${nl%.}
+            printf '%s\n' "$buffers_escaped" |
+            while read bufname
+            do {
+                printf "$cmd '%s'\n" "$bufname"
+            }; done
+        } fi
+    }
+}
 
