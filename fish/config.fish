@@ -23,11 +23,14 @@ alias kakln1c 'kak -c (kak -l | grep -xE "[[:digit:]]+" | head -n 1)'
 alias kake 'setsid /var/lib/snapd/snap/bin/kakoune -d -s EDITOR 2>/dev/null ; /var/lib/snapd/snap/bin/kakoune -c EDITOR'
     fish_add_path ~/.local/bin ~/bin
 fish_add_path ~/.cargo/bin/
-end
-
-
 # should I limit this to interactive session ?
 eval (ssh-agent -c)
+
+end
+
+abbr cbi "cb -i"
+abbr cbo "cb -o"
+
 
 set LIBTORCH /usr/local/lib/libtorch/
 set LD_LIBRARY_PATH {$LIBTORCH}lib:
