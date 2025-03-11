@@ -136,14 +136,28 @@ map global goto W '<esc><a-i><a-semicolon>lsp-diagnostic-object<ret>' -docstring
 
 # rust
 hook global WinSetOption filetype=rust %{
-  lsp-enable-window
-  # doesn't work, wrong argument count. see ~/.config/kak/plugins/kak-lsp/rc/lsp.kak:2209:5
-  # lsp-inlay-diagnostics-enable "global"
-
   set-option window makecmd "cargo build --release 2>&1"
   define-command -override -params .. -docstring \
   "build [<arguments>]: cargo build wrapper utility. All arguments are forwarded to the cargo build command."\
   build %{
+    # TODO : properly rewrite make into a Rust build instead of that make hack.
+    hook global WinSetOption filetype=make %{
+      define-command -override -hidden build-gF %{
+        try %{
+          exec 'Jxs--<gt> <ret>lGl'
+        }
+      }
+      # PONDER the 2 isn't exactly Iron clad, going previous error from a non error notably
+      # TODO: use draft and restoration to not clutter the jump list.
+      # TODO: these get borken when you db the *make* buffer. These mapping most likely should use a different hook.
+      map buffer normal <down>   '/^error(?:\[[^\]]+\])?:<ret>:eval build-gF<ret>'
+      map buffer normal <up> '2<a-/>^error(?:\[[^\]]+\])?:<ret>:eval build-gF<ret>'
+      map buffer normal <right> '/^(error|warning)<ret>:eval build-gF<ret>'
+      map buffer normal <left> '2<a-/>^(error|warning)<ret>:eval build-gF<ret>'
+      map buffer normal <tab> '/^(error|warning|note)<ret>:eval build-gF<ret>'
+      map buffer normal <s-tab> '2<a-/>^(error|warning|note)<ret>:eval build-gF<ret>'
+      map buffer normal <ret> ':gf<ret>'
+    }
     set-option window makecmd "cargo build"
     make %arg{@}
   }
@@ -153,6 +167,11 @@ hook global WinSetOption filetype=rust %{
     set-option window makecmd "cargo test"
     make %arg{@}
   }
+
+# lsp is error prone, we start it at the end
+  lsp-enable-window
+  # doesn't work, wrong argument count. see ~/.config/kak/plugins/kak-lsp/rc/lsp.kak:2209:5
+  # lsp-inlay-diagnostics-enable "global"
 
   hook window -group semantic-tokens BufReload .* lsp-semantic-tokens
   hook window -group semantic-tokens NormalIdle .* lsp-semantic-tokens
