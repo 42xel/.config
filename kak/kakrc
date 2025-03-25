@@ -35,14 +35,14 @@ map global normal <a-q> ": comment-line<ret>"
 map global insert <a-q> "<a-;>: comment-line<ret>"
 
 # map global normal f ':on-key %{execute-keys "f%val{key};"}<ret>'
-map global normal f ':f-desel<ret>'
+map global normal f ":f-desel<ret>"
 define-command -hidden f-desel %{
-  execute-keys 'f'
+  execute-keys "%val{count}f"
   on-key %{execute-keys "%val{key};"}
 }
 map global normal <a-f> ':a-f-desel<ret>'
 define-command -hidden a-f-desel %{
-  execute-keys '<a-f>'
+  execute-keys "%val{count}<a-f>"
   on-key %{execute-keys "%val{key};"}
 }
 
