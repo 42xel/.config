@@ -86,7 +86,7 @@ plug "andreyorst/fzf.kak" config %{
 map -docstring "fzf" global user z ": fzf-mode<ret>"
 
 ## TODO see if still useful after fzf and harpoon/pokemon
-define-command -docstring "fd [<arguments>]: scratch fdfind" -params .. fdfind %{
+define-command -docstring "fdfind [<arguments>]: scratch fdfind" -params .. fdfind %{
   edit -scratch *fd*
   execute-keys "gg! fdfind %arg{@}<ret><a-o>"
   map buffer normal <ret> 'x: goto-file<ret>'
@@ -110,8 +110,8 @@ plug "gustavo-hms/luar" %{
 plug "kak-lsp/kak-lsp" do %{
   cargo install --locked --force --path .
   # optional: if you want to use specific language servers
-  # mkdir -p ~/.config/kak-lsp
-  # cp -n kak-lsp.toml ~/.config/kak-lsp/
+  mkdir -p ~/.config/kak-lsp
+  cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
 set-option global lsp_auto_highlight_references true
 map -docstring "lsp mode" global user l ": enter-user-mode lsp<ret>"

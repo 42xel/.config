@@ -32,7 +32,11 @@ abbr cbi "cb -i"
 abbr cbo "cb -o"
 
 
+# this need to go elsewhere
 set LIBTORCH /usr/local/lib/libtorch/
 set LD_LIBRARY_PATH {$LIBTORCH}lib:
 set PKG_CONFIG_PATH /usr/lib64/pkgconfig/
+
+# so does this
+set agc ~/Repo/Abstract_Geometrical_Computation/Eclipse/agc_2.2.jar
 
