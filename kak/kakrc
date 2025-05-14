@@ -82,10 +82,12 @@ plug "andreyorst/fzf.kak" config %{
 map -docstring "fzf" global user z ": fzf-mode<ret>"
 
 ## TODO see if still useful after fzf and harpoon/pokemon
+## TODO maybe the mapping shouldn't be here, but on a hook related to `*fd*` instead.
 define-command -docstring "fdfind [<arguments>]: scratch fdfind" -params .. fdfind %{
   edit -scratch *fd*
   execute-keys "gg! fdfind %arg{@}<ret><a-o>"
   map buffer normal <ret> 'x: goto-file<ret>'
+  map buffer insert <ret> '<esc>x: goto-file<ret>'
 }
 alias global fd fdfind
 
@@ -229,6 +231,7 @@ map global -docstring "a mode to chain actions like write, quit ..." user <space
 
 # TODO completions (for some reason -shell-completion does not work)
 # TODO better jumplist
+# TODO remove parameters which prints the full line thanks to better jump list
 define-command -file-completion -params .. -docstring \
   "tree [<arguments>]: execute tree into a buffer, with the following options :
 - -f to have full pathnames.
@@ -242,6 +245,7 @@ tree %{
   edit -scratch *tree*
   execute-keys "! tree -f --charset ASCII %arg{@}<ret>%%s^[\h|\-`]+<ret>r<space>gg"
   map buffer normal <ret> 'x: goto-file<ret>'
+  map buffer insert <ret> '<esc>x: goto-file<ret>'
 }
 
 # TODO: betterise with the arguments for the grep
