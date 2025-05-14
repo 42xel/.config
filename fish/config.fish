@@ -31,6 +31,13 @@ end
 abbr cbi "cb -i"
 abbr cbo "cb -o"
 
+# selects the n-th line by writing s<n>
+function _abbr_sel_nth_line
+    echo -n 'sed -n \''
+    echo -n $argv | tail -c+2
+    echo -n '{p;q}\''
+end
+abbr --add sel_nth_line --position command --regex "s\d+" --function _abbr_sel_nth_line
 
 # this need to go elsewhere
 set LIBTORCH /usr/local/lib/libtorch/
