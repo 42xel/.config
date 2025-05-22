@@ -1,0 +1,16 @@
+#!/bin/fish
+
+# a local, pipeable clipboard, as an alternative to xsel+X forwarding which, while convenient, is wasteful, and regularly breaks over ssh.
+
+# io oi ?
+argparse i/input o/output -- $argv
+or return 1
+
+if set -ql _flag_input
+    # echo input_case >&2
+    cat - > ~/.cb_clipboard
+else if set -ql _flag_output
+    # echo output_case >&2
+    cat < ~/.cb_clipboard
+end
+
