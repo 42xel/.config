@@ -223,6 +223,7 @@ hook global BufCreate .*\.kdl %{
 source ~/.config/kak/arrow_keys.kak
 source ~/.config/kak/better-gf.kak
 source ~/.config/kak/gnu_readline.kak
+source "%val{config}/kakoune-repl-buffer/repl-buffer.kak"
 
 source ~/.config/kak/file_mode.kak
 map global -docstring "a mode to chain actions like write, quit ..." normal <c-esc> ':enter-user-mode -lock file<ret>'
